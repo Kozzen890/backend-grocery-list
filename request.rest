@@ -1,0 +1,12 @@
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "email": "Mauudrey@gmail.com",
+  "password": "12345678"
+}
+
+###
+
+GET  http://localhost:5000/token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiQXVkcmV5MSIsImVtYWlsIjoiTWF1dWRyZXlAZ21haWwuY29tIiwiaWF0IjoxNjg1ODkzMzEwfQ.UxK6pCtqJfvvYNxIZGPnhJadeNOTS1C3PfYEAWWVLWk
