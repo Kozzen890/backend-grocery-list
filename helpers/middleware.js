@@ -1,4 +1,5 @@
 // const jwt = require("jsonwebtoken");
+import User from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
@@ -9,9 +10,17 @@ export const verifyToken = (req, res, next) => {
   }
   jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => {
     if (err) {
-      return res.sendStatus(403).json({ message: "Login Berhasil" });
+      return res.sendStatus(403).json({ message: "Gagal" });
     }
-    req.email = decoded.email;
+    req.id = decoded.id;
     next();
   });
+  // var decoded = jwt.verify(token, process.env.TOKEN_KEY);
+  // if (decoded) {
+  //   var email = User.findOne({ id: decoded.id });
+  //   if (email) {
+  //     req.email = email;
+  //     next();
+  //   }
+  // }
 };

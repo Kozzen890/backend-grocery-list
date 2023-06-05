@@ -18,11 +18,11 @@ export const getUsers = async (req, res) => {
 
 export const getUserLogin = async (req, res) => {
   try {
-    const response = await User.findAll({
-      attributes: ["id", "username", "email"],
+    const response = await User.findOne({
+      where: { email: req.body.email },
     });
     res.status(200).json({
-      message: "Berhasil menampilkan semua Data User",
+      message: "Berhasil menampilkan Data User",
       response: response,
     });
   } catch (error) {
@@ -77,7 +77,25 @@ export const login = async (req, res) => {
     const username = user[0].username;
     const email = user[0].email;
 
-    const accessToken = jwt.sign({ userId, username, email }, process.env.TOKEN_KEY);
+    const accessToken = jwt.sign({ userId, username, email }, process.env.TOKEN_KEY, {
+      expiresIn: "60s",
+    });
+    const refreshToken = jwt.sign({ userId, username, email }, process.env.REFRESH_TOKEN_KEY, {
+      expiresIn: "1d",
+    });
+
+    await User.update(
+      { refresh_token: refreshToken },
+      {
+        where: {
+          id: userId,
+        },
+      }
+    );
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 1000,
+    });
     res.json({
       accessToken,
       message: "Login Berhasil",
