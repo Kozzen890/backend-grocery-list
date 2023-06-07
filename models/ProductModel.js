@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
+import Category from "./CategoryModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -18,7 +19,7 @@ const Products = db.define(
     freezeTableName: true,
   }
 );
-
+Products.belongsTo(Category, { foreignKey: "category" });
 export default Products;
 
 (async () => {

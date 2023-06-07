@@ -1,9 +1,16 @@
+import Category from "../models/CategoryModel.js";
 import Products from "../models/ProductModel.js";
 
 export const getAllProducts = async (req, res) => {
   try {
     const response = await Products.findAll({
       attributes: ["id", "productName", "category", "description"],
+      include: [
+        {
+          model: Category,
+          attributes: ["id"],
+        },
+      ],
     });
     res.status(200).json({
       message: "Berhasil menampilkan semua Data Produk",
@@ -20,6 +27,12 @@ export const getProductById = async (req, res) => {
       where: {
         id: req.params.id,
       },
+      include: [
+        {
+          model: Category,
+          attributes: ["id"],
+        },
+      ],
     });
     res.status(200).json({
       message: `Berhasil memampilkan data produk dengan ID : ${response.id}`,
