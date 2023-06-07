@@ -36,6 +36,7 @@ export const getUserById = async (req, res) => {
       where: {
         id: req.params.id,
       },
+      attributes: ["id", "username", "email"],
     });
     res.status(200).json({
       message: "Berhasil memampilkan data user",
