@@ -30,6 +30,31 @@ export const getProductById = async (req, res) => {
   }
 };
 
+export const getProductByCategory = async (req, res) => {
+  try {
+    const response = await Products.findAndCountAll({
+      where: {
+        category: req.params.category,
+      },
+      attributes: ["id", "productName", "category", "description"],
+    });
+    if (response.count > 0) {
+      res.status(200).json({
+        message: `Berhasil memampilkan data produk dengan kategori: ${req.params.category}`,
+        data: response,
+      });
+    } else {
+      res.status(404).json({ message: `Produk dengan kategori ${req.params.category} tidak ditemukan` });
+    }
+    // res.status(200).json({
+    //   message: `Berhasil memampilkan data produk dengan kategori : ${response.category}`,
+    //   response: response,
+    // });
+  } catch (error) {
+    res.status(404).json({ message: "Error" });
+  }
+};
+
 export const addProduct = async (req, res) => {
   const { id, productName, category, description } = req.body;
   try {

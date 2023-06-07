@@ -3,16 +3,15 @@ import User from "../models/UserModel.js";
 import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
-  const auth = req.headers["authorization"];
-  const token = auth && auth.split(" ")[1];
-  if (!token) {
-    return res.sendStatus(401);
-  }
-  jwt.verify(token, process.env.TOKEN_KEY, (err, decoded) => {
+  const authHeader = req.body.token || req.query.token || req.headers["x-auth-token"] || req.headers.authorization;
+  const bearer = authHeader.split(" ");
+  const bearerToken = bearer[1];
+  if (authHeader == null) return res.sendStatus(403);
+  jwt.verify(bearerToken, process.env.TOKEN_KEY, async (err, payload) => {
     if (err) {
       return res.sendStatus(403).json({ message: "Gagal" });
     }
-    req.id = decoded.id;
+    req.payload = payload;
     next();
   });
   // var decoded = jwt.verify(token, process.env.TOKEN_KEY);
