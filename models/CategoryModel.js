@@ -10,6 +10,9 @@ const Category = db.define(
       type: DataTypes.STRING,
       primaryKey: true,
     },
+    categoryName: {
+      type: DataTypes.STRING,
+    },
   },
   {
     freezeTableName: true,

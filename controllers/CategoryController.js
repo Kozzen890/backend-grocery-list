@@ -3,7 +3,7 @@ import Category from "../models/CategoryModel.js";
 export const getAllCategories = async (req, res) => {
   try {
     const response = await Category.findAll({
-      attributes: ["id"],
+      attributes: ["id", "categoryName"],
     });
     res.status(200).json({
       message: "Berhasil menampilkan semua Data Kategori",

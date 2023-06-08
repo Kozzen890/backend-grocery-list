@@ -8,7 +8,7 @@ export const getAllProducts = async (req, res) => {
       include: [
         {
           model: Category,
-          attributes: ["id"],
+          attributes: ["id", "categoryName"],
         },
       ],
     });
@@ -30,7 +30,7 @@ export const getProductById = async (req, res) => {
       include: [
         {
           model: Category,
-          attributes: ["id"],
+          attributes: ["id", "categoryName"],
         },
       ],
     });
