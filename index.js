@@ -15,9 +15,9 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 app.use(UserRoute, ProductRoute, ListRoute, CategoriesRoute);
-app.use(ProductRoute);
-app.use(ListRoute);
-app.use(ListRoute);
+// app.use(ProductRoute);
+// app.use(ListRoute);
+// app.use(ListRoute);
 
 db.sync();
 // routes(app, express);

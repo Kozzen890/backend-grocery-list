@@ -7,19 +7,19 @@ export const verifyToken = (req, res, next) => {
   const bearer = authHeader.split(" ");
   const bearerToken = bearer[1];
   if (authHeader == null) return res.sendStatus(403);
-  jwt.verify(bearerToken, process.env.TOKEN_KEY, async (err, payload) => {
-    if (err) {
-      return res.sendStatus(403).json({ message: "Gagal" });
-    }
-    req.payload = payload;
-    next();
-  });
-  // var decoded = jwt.verify(token, process.env.TOKEN_KEY);
-  // if (decoded) {
-  //   var email = User.findOne({ id: decoded.id });
-  //   if (email) {
-  //     req.email = email;
-  //     next();
+  // jwt.verify(bearerToken, process.env.TOKEN_KEY, async (err, payload) => {
+  //   if (err) {
+  //     return res.sendStatus(403).json({ message: "Gagal" });
   //   }
-  // }
+  //   req.payload = payload;
+  //   next();
+  // });
+  var decoded = jwt.verify(bearerToken, process.env.TOKEN_KEY);
+  if (decoded) {
+    var user = User.findOne({ id: decoded.id });
+    if (user) {
+      req.user = user;
+      next();
+    }
+  }
 };

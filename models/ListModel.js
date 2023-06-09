@@ -25,6 +25,7 @@ const List = db.define(
 );
 List.belongsTo(User, { foreignKey: "userId" });
 List.belongsTo(Products, { foreignKey: "product_id" });
+User.hasMany(List, { foreignKey: "userId" });
 
 export default List;
 

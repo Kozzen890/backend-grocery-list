@@ -20,7 +20,11 @@ export const getUsers = async (req, res) => {
 
 export const getUserLogin = async (req, res) => {
   try {
-    const response = await User.findAll();
+    const response = await User.findAll({
+      where: {
+        accessToken: Headers["x-auth-token"],
+      },
+    });
     res.status(200).json({
       message: "Berhasil menampilkan Data User",
       response: response,

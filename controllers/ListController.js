@@ -53,6 +53,51 @@ export const getListId = async (req, res) => {
   }
 };
 
+export const getListByUserId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let response = await List.findAll({
+      attributes: ["id"],
+      where: {
+        userId: id,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["id", "username", "email"],
+        },
+        {
+          model: Products,
+          attributes: ["id", "productName", "category", "description"],
+        },
+      ],
+
+      // include: [
+      //   {
+      //     model: User,
+      //     attributes: ["username", "email"],
+      //   },
+      //   {
+      //     model: Products,
+      //     attributes: ["id", "productName", "category", "description"],
+      //   },
+      // ],
+    });
+    if (response.length === 0) {
+      res.status(200).json({
+        message: `Tidak ada data`,
+      });
+    } else {
+      res.status(200).json({
+        message: `Berhasil memampilkan data List dengan userId : ${req.params.id}`,
+        response: response,
+      });
+    }
+  } catch (error) {
+    res.status(404).json({ message: "Tidak dapat menampilkan data" });
+  }
+};
+
 export const createList = async (req, res) => {
   const { id, userId, product_id } = req.body;
   try {
