@@ -14,6 +14,22 @@ export const getAllCategories = async (req, res) => {
   }
 };
 
+export const getCategoriesById = async (req, res) => {
+  try {
+    const response = await Category.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.status(200).json({
+      message: "Berhasil menampilkan data kategori",
+      response: response,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 export const addCategories = async (req, res) => {
   const { id } = req.body;
   try {
